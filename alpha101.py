@@ -12,7 +12,23 @@ import scipy.stats as stats
 import matplotlib.pyplot as plt
 
 # 中性(行业中性)
+def neu_industry(stock_data,sector_series):
+    """
+    a_transform = a / sector_average(a)
 
+    """
+    #align sector_series to stock_data in case of stock_data's sparse stocks
+    inner = sector_series[stock_data.columns]
+    stock_data = stock_data.replace([-np.inf,np.inf],0).fillna(value=0)
+    trans_matrix = pd.DataFrame()
+    for stock in stock_data.columns:
+        df = inner==inner[stock]
+        df /= df.sum()
+        trans_matrix = pd.concat([trans_matrix,df],axis=1,sort=True)
+    
+    result = pd.DataFrame(np.dot(stock_data.fillna(value=0),trans_matrix.fillna(value=0)),
+                          index=stock_data.index,columns=stock_data.columns)    
+    return (stock_data / result)
 
 def neutral(data, ind):
     stocks = list(data.index)

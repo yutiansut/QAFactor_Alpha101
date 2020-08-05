@@ -29,4 +29,7 @@ cap = mv.reset_index().pivot(index='date', columns='code', values='mv')
 ind = indx.reindex(close.columns)
 
 
-print(alpha5(Open, vwap, close))
+#print(alpha5(Open, vwap, close))
+
+
+print(alpha101(close, Open,high, low))
