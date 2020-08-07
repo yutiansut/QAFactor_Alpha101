@@ -31,5 +31,18 @@ ind = indx.reindex(close.columns)
 
 #print(alpha5(Open, vwap, close))
 
+def split_data(data, un=5):
+    data = data.sort_values().dropna()
+    step= int(len(data)/un)
+    return pd.Series([data.iloc[step*(n-1):step*n].index.tolist() for n in range(1,un+1) ], index=['l{}'.format(n) for n in range(1,un+1)])
+def get_all(res, level, timerange=50):
+    zres = res.loc[:, level].shift(1)
+    y = lambda datex :data.selects(zres.loc[datex], datex, QA.QA_util_get_next_day(datex)).pct_change.loc[QA.QA_util_get_next_day(datex), slice(None)].mean()
+    return pd.Series(zres.iloc[1:timerange+1].index.map(y), index= zres.iloc[1:timerange+1].index, name=level).cumsum()
+def test_factor(x,layer=5, timerange=50):
+    res = x.apply(lambda x:split_data(x, layer), axis=1)
+    return pd.concat([get_all(res, i, timerange) for i in ['l{}'.format(n) for n in range(1,layer+1)]],axis=1)
 
-print(alpha101(close, Open, high, low))
+x = alpha101(close, Open, high, low)
+pxx = test_factor(x, 10, 60)
+pxx.plot(figsize=(20,8))
