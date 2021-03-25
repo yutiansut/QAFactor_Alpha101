@@ -3,7 +3,7 @@ alpha101 的 quantaxis 适配版本
 
 目前只是一个初略的测试
 
-![image.png](http://pic.yutiansut.com/FkVVHHtMnLBUUrs5f-Dp-veTii3S)
+![image.png](http://picx.gulizhu.com/FkVVHHtMnLBUUrs5f-Dp-veTii3S)
 
 
 
